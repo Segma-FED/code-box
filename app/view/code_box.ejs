@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible"
+          content="ie=edge">
+    <title>Segma Code Box</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .container, body, html {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        background: #1E1E1E;
+        font-family: 'Microsoft YaHei UI'
+    }
+
+    .left, .right {
+        width: 50%;
+        height: 100%;
+    }
+
+    iframe {
+        width: 100%;
+        height: 100%;
+    }
+
+    .right-top {
+        height: 35px;
+    }
+
+    .right-content {
+        height: calc(100% - 35px);
+        background: #fff;
+    }
+
+    .animate {
+        transition: all 0.1s;
+        -webkit-transition: all 0.1s;
+    }
+
+    .action-button {
+        display: inline-block;
+        position: relative;
+        padding: 3px 10px;
+        float: left;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #FFF;
+        text-decoration: none;
+        margin-left: 10px;
+        margin-top: 2px;
+    }
+
+    .blue {
+        background-color: #3498DB;
+        border-bottom: 5px solid #2980B9;
+        text-shadow: 0px -2px #2980B9;
+    }
+
+    .red {
+        background-color: #E74C3C;
+        border-bottom: 5px solid #BD3E31;
+        text-shadow: 0px -2px #BD3E31;
+    }
+
+    .green {
+        background-color: #82BF56;
+        border-bottom: 5px solid #669644;
+        text-shadow: 0px -2px #669644;
+    }
+
+    .yellow {
+        background-color: #F2CF66;
+        border-bottom: 5px solid #D1B358;
+        text-shadow: 0px -2px #D1B358;
+    }
+
+    .action-button:active {
+        transform: translate(0px, 5px);
+        -webkit-transform: translate(0px, 5px);
+        border-bottom: 1px solid;
+    }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="left">
+        <iframe id="editorFrame"
+                src="<%= editorUrl %>"
+                frameborder="no"
+                border="0"></iframe>
+    </div>
+    <div class="right">
+        <div class="right-top">
+            <a href="javascript:void(0)"
+               class="action-button animate yellow"
+               onclick="reloadEditor()">重新加载编辑器</a>
+            <a href="javascript:void(0)"
+               class="action-button animate yellow">运行</a>
+        </div>
+        <div class="right-content">
+            <iframe src="<%= pageUrl %>"
+                    frameborder="no"
+                    border="0"></iframe>
+        </div>
+    </div>
+</div>
+<script>
+const reload = (El) => {
+  El.src = El.src
+}
+const reloadEditor = () => {
+  reload(document.getElementById('editorFrame'))
+}
+</script>
+</body>
+</html>

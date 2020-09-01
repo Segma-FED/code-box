@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible"
+          content="ie=edge">
+    <title>Segma Code Box</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body, html {
+        color: #1E1E1E;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: 'Microsoft YaHei UI'
+    }
+
+    .main {
+        margin: 0 auto;
+        margin-top: 100px;
+        text-align: center;
+        width: 320px;
+    }
+
+    /* Custom Select */
+    .select {
+        margin-top: 20px;
+        position: relative;
+        display: flex;
+        width: 20em;
+        height: 3em;
+        line-height: 3;
+        background: #1E1E1E;
+        overflow: hidden;
+        border-radius: .25em;
+    }
+
+    /* Arrow */
+    .select::after {
+        content: '\25BC';
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0 1em;
+        background: #1E1E1E;
+        cursor: pointer;
+        pointer-events: none;
+        -webkit-transition: .25s all ease;
+        -o-transition: .25s all ease;
+        transition: .25s all ease;
+        color: #fff;
+    }
+
+    /* Transition */
+    .select:hover::after {
+        color: #f39c12;
+    }
+
+    /* Reset Select */
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        appearance: none;
+        outline: 0;
+        box-shadow: none;
+        border: 0 !important;
+        background: #1E1E1E;
+        background-image: none;
+    }
+
+    /* Remove IE arrow */
+    select::-ms-expand {
+        display: none;
+    }
+
+    select {
+        flex: 1;
+        padding: 0;
+        color: #fff;
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+<div class="main">
+    <h1>
+        Segma Code Box
+    </h1>
+    <div class="select">
+        <select id="select">
+            <% projectList.forEach(item => { %>
+                <option value="<%= item.name %>"
+                        selected="<%= item.select %>"><%= item.name %></option>
+            <% }) %>
+            <option style="display: none"
+                    disabled
+                    selected
+                    value="0">请选择项目
+            </option>
+        </select>
+    </div>
+</div>
+<script>
+const selectElement = document.getElementById('select');
+
+selectElement.addEventListener('change', (event) => {
+  let value = event.target.value
+  fetch(`/api/update-project?project=${value}`)
+    .then(res => {
+      if (res) {
+        window.location.href = '/code-box'
+      } else {
+        console.log('报错了')
+      }
+    })
+});
+</script>
+</body>
+</html>
