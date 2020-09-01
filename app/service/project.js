@@ -3,7 +3,7 @@
  */
 'use strict';
 const Service = require('egg').Service;
-const { getIPAddress } = require('../utils/common');
+// const { getIPAddress } = require('../utils/common');
 
 const getProject = () => {
   return [
@@ -42,11 +42,11 @@ class ProjectService extends Service {
   }
 
   async getEditorUrl() {
-    return `http://${await getIPAddress()}:8080/?folder=/root/CODE/${currentProject}`;
+    return `http://http://111.229.245.66:8080/?folder=/root/CODE/${currentProject}`;
   }
 
   async getPageUrl() {
-    return `http://${await getIPAddress()}:8091/`;
+    return 'http://http://111.229.245.66:8091/';
   }
 
 
