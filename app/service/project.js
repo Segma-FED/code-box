@@ -42,11 +42,11 @@ class ProjectService extends Service {
   }
 
   async getEditorUrl() {
-    return `http://http://111.229.245.66:8080/?folder=/root/CODE/${currentProject}`;
+    return `http://111.229.245.66:8080/?folder=/root/CODE/${currentProject}`;
   }
 
   async getPageUrl() {
-    return 'http://http://111.229.245.66:8091/';
+    return 'http://111.229.245.66:8091/';
   }
 
 
