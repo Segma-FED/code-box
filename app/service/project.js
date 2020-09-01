@@ -18,7 +18,7 @@ const getProject = () => {
     },
   ];
 };
-let currentProject = '';
+let currentProject = 'segma-framework';
 
 class ProjectService extends Service {
   async getCurrentProject() {

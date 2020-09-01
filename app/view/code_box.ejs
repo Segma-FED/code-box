@@ -34,6 +34,8 @@
 
     .right-top {
         height: 35px;
+        display: flex;
+        justify-content: space-between;
     }
 
     .right-content {
@@ -100,14 +102,24 @@
     </div>
     <div class="right">
         <div class="right-top">
-            <a href="javascript:void(0)"
-               class="action-button animate yellow"
-               onclick="reloadEditor()">重新加载编辑器</a>
-            <a href="javascript:void(0)"
-               class="action-button animate yellow">运行</a>
+            <div class="start">
+                <a href="javascript:void(0)"
+                   class="action-button animate yellow"
+                   onclick="reloadEditor()">重新加载编辑器</a>
+
+            </div>
+            <div class="end">
+                <a href="javascript:void(0)"
+                   class="action-button animate yellow"
+                   title="默认脚本：npm run serve">运行</a>
+                <a href="javascript:void(0)"
+                   class="action-button animate yellow"
+                   onclick="reloadPage()">重新加载页面</a>
+            </div>
         </div>
         <div class="right-content">
-            <iframe src="<%= pageUrl %>"
+            <iframe id="pageFrame"
+                    src="<%= pageUrl %>"
                     frameborder="no"
                     border="0"></iframe>
         </div>
@@ -119,6 +131,9 @@ const reload = (El) => {
 }
 const reloadEditor = () => {
   reload(document.getElementById('editorFrame'))
+}
+const reloadPage = () => {
+  reload(document.getElementById('pageFrame'))
 }
 </script>
 </body>
