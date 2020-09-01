@@ -115,6 +115,9 @@
                 <a href="javascript:void(0)"
                    class="action-button animate yellow"
                    onclick="reloadPage()">重新加载页面</a>
+                <a href="javascript:void(0)"
+                   class="action-button animate yellow"
+                   onclick="openNew()">新窗口打开</a>
             </div>
         </div>
         <div class="right-content">
@@ -134,6 +137,10 @@ const reloadEditor = () => {
 }
 const reloadPage = () => {
   reload(document.getElementById('pageFrame'))
+}
+
+const openNew = () => {
+  window.open('<%= pageUrl %>')
 }
 </script>
 </body>
