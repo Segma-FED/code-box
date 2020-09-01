@@ -22,7 +22,7 @@ module.exports = appInfo => {
   const userConfig = {
     // myAppName: 'egg',
   };
-  const onerror = {
+  config.onerror = {
     all(err, ctx) {
       // 在此处定义针对所有响应类型的错误处理方法
       // 注意，定义了 config.all 之后，其他错误处理方法不会再生效
@@ -40,14 +40,19 @@ module.exports = appInfo => {
       ctx.status = 500;
     },
   };
-  const view = {
+  config.view = {
     mapping: {
       '.ejs': 'ejs',
     },
   };
+  config.cluster = {
+    listen: {
+      port: 7001,
+      hostname: '0.0.0.0', // 不建议设置 hostname 为 '0.0.0.0'，它将允许来自外部网络和来源的连接，请在知晓风险的情况下使用
+      // path: '/var/run/egg.sock',
+    },
+  };
   return {
-    view,
-    onerror,
     ...config,
     ...userConfig,
   };
