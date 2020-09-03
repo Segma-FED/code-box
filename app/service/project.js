@@ -46,7 +46,7 @@ class ProjectService extends Service {
   }
 
   async getPageUrl() {
-    return 'http://119.84.70.187:48091/';
+    return 'http://localhost:8080/';
   }
 
 

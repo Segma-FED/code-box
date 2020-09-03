@@ -252,8 +252,8 @@
     </div>
 </div>
 <script>
-const reload = (El) => {
-  El.src = El.src
+const reload = (El, src = '') => {
+  El.src = src || El.src
 }
 
 /**
@@ -267,14 +267,14 @@ const reloadEditor = () => {
  * 刷新预览页面
  * */
 const reloadPage = () => {
-  reload(document.getElementById('pageFrame'))
+  reload(document.getElementById('pageFrame'), window.pageHref)
 }
 
 /**
  * 预览页面 从新窗口打开
  * */
 const openNew = () => {
-  window.open('<%= pageUrl %>')
+  window.open(window.pageHref)
   handlePageHide();
 }
 
@@ -322,12 +322,19 @@ const handlePageOpen = () => {
   container.classList.remove("right-shrink");
 }
 
+/**
+ * 接受子页面的地址参数
+ * */
+const receiveMessage = (event) => {
+  window.pageHref = event && event.data && event.data.href
+}
 
 /**
  * 页面初始化完成
  * */
 window.onload = async () => {
   autoRefresh();
+  window.addEventListener("message", receiveMessage, false);
 }
 </script>
 </body>
