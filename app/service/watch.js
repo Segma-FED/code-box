@@ -11,7 +11,7 @@ const path = require('path');
 class WatchService extends Service {
   async startWatchFile() {
     lastModifyTime = new Date().getTime();
-    chokidar.watch(path.resolve('/Person/vs-code-test/segma-framework/src'), {
+    chokidar.watch(path.resolve('/home/project/segma-framework/src'), {
       ignored: /node_modules/,
     })
       .on('all', (event, path) => {
