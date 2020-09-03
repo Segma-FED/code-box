@@ -335,7 +335,9 @@ const receiveMessage = (event) => {
  * */
 window.onload = async () => {
   autoRefresh();
-  window.pageOrigin = '<%= pageUrl %>'
+  let pageUrl = '<%= pageUrl %>'
+  console.log('pageUrl',pageUrl)
+  window.pageOrigin = pageUrl
   window.addEventListener("message", receiveMessage, false);
 }
 </script>
