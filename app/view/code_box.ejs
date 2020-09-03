@@ -326,7 +326,8 @@ const handlePageOpen = () => {
  * 接受子页面的地址参数
  * */
 const receiveMessage = (event) => {
-  window.pageHref = event && event.data && event.data.href
+  window.pageHref = window.pageOrigin + event && event.data && event.data.pathname
+  console.log('window.pageHref', window.pageHref)
 }
 
 /**
@@ -334,6 +335,7 @@ const receiveMessage = (event) => {
  * */
 window.onload = async () => {
   autoRefresh();
+  window.pageOrigin = '<%= pageUrl %>'
   window.addEventListener("message", receiveMessage, false);
 }
 </script>
