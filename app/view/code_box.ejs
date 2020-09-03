@@ -293,7 +293,9 @@ const autoRefresh = async () => {
   try {
     let newTime = await getLastModifyTime()
     if (newTime !== window.lastModifyTime) {
-      reloadPage();
+      setTimeout(() => {
+        reloadPage();
+      }, 1000)
     }
     window.lastModifyTime = newTime;
     setTimeout(() => {
