@@ -5,7 +5,7 @@
 const Service = require('egg').Service;
 // const { getIPAddress } = require('../utils/common');
 
-const getProject = () => {
+/* const getProject = () => {
   return [
     {
       name: '项目1',
@@ -17,11 +17,11 @@ const getProject = () => {
       name: '项目3',
     },
   ];
-};
+};*/
 let currentProject = 'segma-framework';
 
 class ProjectService extends Service {
-  async getCurrentProject() {
+  /* async getCurrentProject() {
     return currentProject;
   }
 
@@ -34,7 +34,7 @@ class ProjectService extends Service {
         select: name === currentProject,
       };
     });
-  }
+  }*/
 
   async updateProject(val) {
     currentProject = val;
