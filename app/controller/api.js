@@ -19,6 +19,11 @@ class ApiController extends Controller {
     const { ctx } = this;
     ctx.body = await ctx.service.watch.getLastModifyTime();
   }
+
+  async getPageOrigin() {
+    const { ctx } = this;
+    ctx.body = await ctx.service.project.getPageOrigin();
+  }
 }
 
 module.exports = ApiController;

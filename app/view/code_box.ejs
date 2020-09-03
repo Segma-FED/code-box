@@ -245,7 +245,7 @@
         </div>
         <div class="right-content">
             <iframe id="pageFrame"
-                    src="<%= pageUrl %>"
+                    src="<%= pageOrigin %>"
                     frameborder="no"
                     border="0"></iframe>
         </div>
@@ -326,19 +326,30 @@ const handlePageOpen = () => {
  * 接受子页面的地址参数
  * */
 const receiveMessage = (event) => {
-  window.pageHref = window.pageOrigin + event && event.data && event.data.pathname
-  console.log('window.pageHref', window.pageHref)
+  if (event && event.data && event.data.pathname) {
+    window.pageHref = window.pageOrigin + event.data.pathname
+  }
+}
+
+/**
+ * 获取页面根地址
+ * */
+const getPageOrigin = async () => {
+  let res = await fetch('/api/get-page-origin')
+  return await res.text();
 }
 
 /**
  * 页面初始化完成
  * */
 window.onload = async () => {
-  autoRefresh();
-  let pageUrl = '<%= pageUrl %>'
-  console.log('pageUrl',pageUrl)
-  window.pageOrigin = pageUrl
-  window.addEventListener("message", receiveMessage, false);
+  try {
+    window.pageOrigin = await getPageOrigin();
+    autoRefresh();
+    window.addEventListener("message", receiveMessage, false);
+  } catch (e) {
+    console.log('window.onload', e)
+  }
 }
 </script>
 </body>

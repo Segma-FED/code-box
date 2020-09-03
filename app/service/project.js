@@ -45,8 +45,8 @@ class ProjectService extends Service {
     return `http://119.84.70.187:48080/?folder=/home/${currentProject}`;
   }
 
-  async getPageUrl() {
-    return 'http://localhost:8080/';
+  async getPageOrigin() {
+    return 'http://119.84.70.187:48091';
   }
 
 

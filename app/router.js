@@ -9,5 +9,6 @@ module.exports = app => {
   router.get('/code-box', controller.codeBox.workbench);
   router.get('/api/health', controller.api.health);
   router.get('/api/update-project', controller.api.updateProject);
+  router.get('/api/get-page-origin', controller.api.getPageOrigin);
   router.get('/api/get-last-modify-time', controller.api.getLastModifyTime);
 };

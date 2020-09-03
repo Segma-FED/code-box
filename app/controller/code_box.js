@@ -19,10 +19,10 @@ class CodeBoxController extends Controller {
   async workbench() {
     const { ctx } = this;
     const editorUrl = await ctx.service.project.getEditorUrl();
-    const pageUrl = await ctx.service.project.getPageUrl();
+    const pageOrigin = await ctx.service.project.getPageOrigin();
     await ctx.render('code_box.ejs', {
       editorUrl,
-      pageUrl,
+      pageOrigin,
     });
   }
 }
