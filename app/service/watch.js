@@ -11,7 +11,7 @@ let lastModifyTime = 0;
 // 需要监听变化的文件路径
 const watchPath = path.resolve('/usr/src/node-app/watch-folder');
 const runBuildPath = path.resolve('/usr/src/node-app/run-build-folder');
-const buildScript = './node_modules/.bin/vue-cli-service build --no-clean';
+const buildScript = './node_modules/.bin/vue-cli-service build --no-clean --mode development';
 
 class WatchService extends Service {
   /**
@@ -37,13 +37,15 @@ class WatchService extends Service {
    * */
   async runBuild() {
     try {
-      exec(buildScript, { cwd: runBuildPath }, (err, stdout) => {
-        if (err) {
-          console.error(err);
-          return false;
-        }
-        console.log(stdout);
-        return true;
+      return new Promise(resolve => {
+        exec(buildScript, { cwd: runBuildPath }, (err, stdout) => {
+          if (err) {
+            console.error(err);
+            resolve(false);
+          }
+          console.log(stdout);
+          resolve(true);
+        });
       });
     } catch (e) {
       console.log('runBuildError:', e);

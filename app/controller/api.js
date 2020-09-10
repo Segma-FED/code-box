@@ -15,6 +15,9 @@ class ApiController extends Controller {
     ctx.body = true;
   }
 
+  /**
+   * 获取最新的更新时间
+   * */
   async getLastModifyTime() {
     const { ctx } = this;
     ctx.body = await ctx.service.watch.getLastModifyTime();
@@ -23,6 +26,14 @@ class ApiController extends Controller {
   async getPageOrigin() {
     const { ctx } = this;
     ctx.body = await ctx.service.project.getPageOrigin();
+  }
+
+  /**
+   * 发起构建
+   * */
+  async runBuild() {
+    const { ctx } = this;
+    ctx.body = await ctx.service.watch.runBuild();
   }
 }
 

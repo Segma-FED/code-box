@@ -11,4 +11,5 @@ module.exports = app => {
   router.get('/api/update-project', controller.api.updateProject);
   router.get('/api/get-page-origin', controller.api.getPageOrigin);
   router.get('/api/get-last-modify-time', controller.api.getLastModifyTime);
+  router.get('/api/run-build', controller.api.runBuild);
 };

@@ -237,6 +237,9 @@
             <div class="end">
                 <a href="javascript:void(0)"
                    class="action-button animate yellow"
+                   onclick="rebuild()">重新运行</a>
+                <a href="javascript:void(0)"
+                   class="action-button animate yellow"
                    onclick="reloadPage()">刷新页面</a>
                 <a href="javascript:void(0)"
                    class="action-button animate yellow"
@@ -262,7 +265,14 @@ const reload = (El, src = '') => {
 const reloadEditor = () => {
   reload(document.getElementById('editorFrame'))
 }
-
+/**
+ * 重新构建项目
+ * */
+const rebuild = async () => {
+  let res = await fetch('/api/run-build')
+  res = res.json();
+  console.log('res',res)
+}
 /**
  * 刷新预览页面
  * */
