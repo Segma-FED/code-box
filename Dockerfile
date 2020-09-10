@@ -6,13 +6,9 @@ RUN apk --update add tzdata \
     && apk del tzdata
 
 # 创建app目录/监听目录/运行构建目录
-RUN mkdir -p /usr/src/node-app/egg-server \
-    && mkdir -p /usr/src/node-app/watch-folder \
-    && mkdir -p /usr/src/node-app/run-build-folder \
+RUN mkdir -p /usr/src/node-app/egg-server /usr/src/node-app/watch-folder /usr/src/node-app/run-build-folder
 # 设置工作目录
 WORKDIR /usr/src/node-app/egg-server
-
-RUN npm init -y
 
 # 拷贝package.json文件到工作目录
 # !!重要：package.json需要单独添加。
