@@ -12,6 +12,8 @@ RUN mkdir -p /usr/src/node-app/egg-server \
 # 设置工作目录
 WORKDIR /usr/src/node-app/egg-server
 
+RUN npm init -y
+
 # 拷贝package.json文件到工作目录
 # !!重要：package.json需要单独添加。
 # Docker在构建镜像的时候，是一层一层构建的，仅当这一层有变化时，重新构建对应的层。
@@ -21,7 +23,7 @@ COPY package.json /usr/src/node-app/egg-server/package.json
 
 # 安装npm依赖(使用淘宝的镜像源)
 # 如果使用的境外服务器，无需使用淘宝的镜像源，即改为`RUN npm i`。
-RUN npm init -y && npm i --production --registry=https://registry.npm.taobao.org
+RUN npm i --production --registry=https://registry.npm.taobao.org
 
 # 拷贝所有源代码到工作目录
 COPY . /usr/src/node-app/egg-server
