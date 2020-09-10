@@ -21,7 +21,7 @@ COPY package.json /usr/src/node-app/egg-server/package.json
 
 # 安装npm依赖(使用淘宝的镜像源)
 # 如果使用的境外服务器，无需使用淘宝的镜像源，即改为`RUN npm i`。
-RUN npm i --production --registry=https://registry.npm.taobao.org
+RUN npm init -y && npm i --production --registry=https://registry.npm.taobao.org
 
 # 拷贝所有源代码到工作目录
 COPY . /usr/src/node-app/egg-server
