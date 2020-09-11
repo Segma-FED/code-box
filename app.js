@@ -6,6 +6,9 @@
 class AppBootHook {
   constructor(app) {
     this.app = app;
+    app.messenger.on('agent_message_action', data => {
+      console.log('receive agent_message_action:', data);
+    });
   }
 
   // 配置文件已读取合并但还未生效，修改配置的最后时机，仅支持同步操作。
