@@ -6,6 +6,7 @@
 /**
  * 获取本机IP
  * */
+const path = require('path');
 module.exports = {
   async getIPAddress() {
     const interfaces = require('os')
@@ -20,4 +21,10 @@ module.exports = {
       }
     }
   },
+  // 需要监听变化的文件路径
+  watchPath: path.resolve('/usr/src/node-app/watch-folder'),
+  // 运行构建脚本路径
+  runBuildPath: path.resolve('/usr/src/node-app/run-build-folder'),
+  // 构建命令
+  buildScript: './node_modules/.bin/vue-cli-service build --no-clean --mode development',
 };

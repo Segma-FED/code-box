@@ -6,8 +6,9 @@
 class AppBootHook {
   constructor(app) {
     this.app = app;
-    app.messenger.on('agent_message_action', data => {
-      console.log('receive agent_message_action:', data);
+    app.messenger.on('watch_file_change', async () => {
+      const ctx = await this.app.createAnonymousContext();
+      await ctx.service.watch.runBuild();
     });
   }
 
@@ -32,9 +33,9 @@ class AppBootHook {
   // 应用已经启动完毕，可以用于做一些初始化工作。
   async didReady() {
     // console.log('ready');
-    const ctx = await this.app.createAnonymousContext();
+    /* const ctx = await this.app.createAnonymousContext();
     console.log('didReady');
-    await ctx.service.watch.startWatchFile();
+    await ctx.service.watch.startWatchFile();*/
   }
 
   // Server 已经启动成功，可以开始导入流量，处理外部请求。

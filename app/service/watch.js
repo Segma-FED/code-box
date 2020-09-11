@@ -4,14 +4,9 @@
  */
 'use strict';
 const Service = require('egg').Service;
-const chokidar = require('chokidar');
-const path = require('path');
 const { exec } = require('child_process');
 const _debounce = require('lodash/debounce');
-// 需要监听变化的文件路径
-const watchPath = path.resolve('/usr/src/node-app/watch-folder');
-const runBuildPath = path.resolve('/usr/src/node-app/run-build-folder');
-const buildScript = './node_modules/.bin/vue-cli-service build --no-clean --mode development';
+const { runBuildPath, buildScript } = require('../utils/common');
 // 文件上次修改的时间
 let lastModifyTime = 0;
 /**
@@ -29,21 +24,6 @@ const _runBuild = _debounce(() => {
 
 
 class WatchService extends Service {
-  /**
-   * 监听文件变化
-   * */
-  async startWatchFile() {
-    lastModifyTime = new Date().getTime();
-    chokidar.watch(watchPath, {
-      ignored: /node_modules/,
-      ignoreInitial: true,
-    })
-      .on('all', async (event, path) => {
-        console.log('监听到文件改变：', event, path, String(new Date()));
-        _runBuild();
-      });
-  }
-
   /**
    * 运行构建
    * */
