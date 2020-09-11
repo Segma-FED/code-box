@@ -23,6 +23,9 @@ module.exports = agent => {
       });
     }, 2000, { leading: true });
 
+    /**
+     * 监听文件
+     * */
     chokidar.watch(watchPath, {
       ignored: /node_modules/,
       ignoreInitial: true,
@@ -31,5 +34,13 @@ module.exports = agent => {
         console.log('监听到文件改变：', event, path, String(new Date()));
         _runBuild();
       });
+
+    /**
+     * 监听构建请求
+     * */
+    agent.messenger.on('run_build', () => {
+      console.log('run_build');
+      _runBuild();
+    });
   });
 };

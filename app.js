@@ -7,6 +7,7 @@ class AppBootHook {
   constructor(app) {
     this.app = app;
     app.messenger.on('set_last_modify_time', async time => {
+      console.log('set_last_modify_time：', time);
       const ctx = await this.app.createAnonymousContext();
       await ctx.service.watch.setLastModifyTime(time);
     });
