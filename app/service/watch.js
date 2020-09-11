@@ -7,7 +7,7 @@ const Service = require('egg').Service;
 const chokidar = require('chokidar');
 const path = require('path');
 const { exec } = require('child_process');
-const _debounce = require('lodash/debounce');
+// const _debounce = require('lodash/debounce');
 // 需要监听变化的文件路径
 const watchPath = path.resolve('/usr/src/node-app/watch-folder');
 const runBuildPath = path.resolve('/usr/src/node-app/run-build-folder');
@@ -17,21 +17,25 @@ let lastModifyTime = 0;
 /**
  * 运行构建与防抖
  * */
-const _runBuild = _debounce(() => {
-  console.log('执行构建。。。', String(new Date()));
-  exec(buildScript, { cwd: runBuildPath }, err => {
-    if (err) {
-      console.error('runBuildFail:', err);
-    }
-    lastModifyTime = new Date().getTime();
-  });
-}, 2000, { leading: true });
-/**
- * 文件监听与防抖
- * */
-const _handleFileChange = _debounce(() => {
-  _runBuild();
-}, 3000);
+let timer = null;
+const wait = 2000;
+
+const _runBuild = () => {
+  if (timer) {
+    clearTimeout(timer);
+    timer = null;
+  }
+  timer = setTimeout(() => {
+    console.log('执行构建。。。', String(new Date()));
+    exec(buildScript, { cwd: runBuildPath }, err => {
+      if (err) {
+        console.error('runBuildFail:', err);
+      }
+      lastModifyTime = new Date().getTime();
+      timer = null;
+    });
+  }, wait);
+};
 
 
 class WatchService extends Service {
@@ -46,7 +50,7 @@ class WatchService extends Service {
     })
       .on('all', async (event, path) => {
         console.log('监听到文件改变：', event, path, String(new Date()));
-        _handleFileChange();
+        _runBuild();
       });
   }
 
