@@ -6,9 +6,17 @@
 const Service = require('egg').Service;
 const { exec } = require('child_process');
 const _debounce = require('lodash/debounce');
+const fs = require('fs');
 const { runBuildPath, buildScript } = require('../utils/common');
-// 文件上次修改的时间
-let lastModifyTime = 0;
+const setLastModifyTime = timestamp => {
+  fs.writeFile('./last_modify_time.json', JSON.stringify({ lastModifyTime: timestamp }), function(err) {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log('----------修改成功-------------');
+    }
+  });
+};
 /**
  * 运行构建与防抖
  * */
@@ -18,7 +26,7 @@ const _runBuild = _debounce(() => {
     if (err) {
       console.error('runBuildFail:', err);
     }
-    lastModifyTime = new Date().getTime();
+    setLastModifyTime(new Date().getTime());
   });
 }, 2000, { leading: true });
 
@@ -33,7 +41,8 @@ class WatchService extends Service {
   }
 
   async getLastModifyTime() {
-    return lastModifyTime;
+    const json = require('./last_modify_time.json');
+    return json.lastModifyTime;
   }
 }
 
