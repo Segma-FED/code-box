@@ -18,12 +18,12 @@ let lastModifyTime = 0;
  * 运行构建与防抖
  * */
 const _runBuild = _debounce(() => {
+  console.log('执行构建。。。', String(new Date()));
   exec(buildScript, { cwd: runBuildPath }, err => {
     if (err) {
       console.error('runBuildFail:', err);
     }
     lastModifyTime = new Date().getTime();
-    console.log('lastModifyTime', lastModifyTime);
   });
 }, 2000, { leading: true });
 /**
@@ -45,7 +45,7 @@ class WatchService extends Service {
       ignoreInitial: true,
     })
       .on('all', async (event, path) => {
-        console.log('event, path', event, path);
+        console.log('监听到文件改变：', event, path, String(new Date()));
         _handleFileChange();
       });
   }
@@ -55,6 +55,7 @@ class WatchService extends Service {
    * */
   async runBuild() {
     _runBuild();
+    return true;
   }
 
   async getLastModifyTime() {
