@@ -20,6 +20,7 @@ const runBuild = () => {
       console.error('runBuildFail:', err);
     }
     console.log('runBuildSuc', stdout);
+    console.log('new Date().getTime()', new Date().getTime());
     lastModifyTime = new Date().getTime();
   });
 };
@@ -37,7 +38,7 @@ class WatchService extends Service {
       ignoreInitial: true,
     })
       .on('all', async (event, path) => {
-        console.log('event, path', event, path);
+        console.log('event, path,new Date().getTime', event, path, new Date().getTime());
         await ctx.service.watch.runBuild();
       });
   }
