@@ -30,6 +30,7 @@ class AppBootHook {
   async didReady() {
     // console.log('ready');
     const ctx = await this.app.createAnonymousContext();
+    console.log('didReady');
     await ctx.service.watch.startWatchFile();
   }
 
