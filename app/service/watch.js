@@ -14,17 +14,26 @@ const runBuildPath = path.resolve('/usr/src/node-app/run-build-folder');
 const buildScript = './node_modules/.bin/vue-cli-service build --no-clean --mode development';
 // 文件上次修改的时间
 let lastModifyTime = 0;
+/**
+ * 运行构建与防抖
+ * */
 const runBuild = () => {
-  exec(buildScript, { cwd: runBuildPath }, (err, stdout) => {
+  exec(buildScript, { cwd: runBuildPath }, err => {
     if (err) {
       console.error('runBuildFail:', err);
     }
-    console.log('runBuildSuc', stdout);
-    console.log('new Date().getTime()', new Date().getTime());
     lastModifyTime = new Date().getTime();
   });
 };
-const _runBuild = _debounce(runBuild, 2000);
+const _runBuild = _debounce(runBuild, 2000, { leading: true });
+/**
+ * 文件监听与防抖
+ * */
+const handleFileChange = () => {
+  _runBuild();
+};
+const _handleFileChange = _debounce(handleFileChange, 3000);
+
 
 class WatchService extends Service {
   /**
@@ -32,14 +41,13 @@ class WatchService extends Service {
    * */
   async startWatchFile() {
     lastModifyTime = new Date().getTime();
-    const { ctx } = this;
     chokidar.watch(watchPath, {
       ignored: /node_modules/,
       ignoreInitial: true,
     })
       .on('all', async (event, path) => {
-        console.log('event, path,new Date().getTime', event, path, new Date().getTime());
-        await ctx.service.watch.runBuild();
+        console.log('event, path', event, path);
+        _handleFileChange();
       });
   }
 
