@@ -17,22 +17,21 @@ let lastModifyTime = 0;
 /**
  * 运行构建与防抖
  * */
-const runBuild = () => {
+const _runBuild = _debounce(() => {
   exec(buildScript, { cwd: runBuildPath }, err => {
     if (err) {
       console.error('runBuildFail:', err);
     }
     lastModifyTime = new Date().getTime();
+    console.log('lastModifyTime', lastModifyTime);
   });
-};
-const _runBuild = _debounce(runBuild, 2000, { leading: true });
+}, 2000, { leading: true });
 /**
  * 文件监听与防抖
  * */
-const handleFileChange = () => {
+const _handleFileChange = _debounce(() => {
   _runBuild();
-};
-const _handleFileChange = _debounce(handleFileChange, 3000);
+}, 3000);
 
 
 class WatchService extends Service {
