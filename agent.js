@@ -18,8 +18,8 @@ module.exports = agent => {
       exec(buildScript, { cwd: runBuildPath }, err => {
         if (err) {
           console.error('runBuildFail:', err);
-          agent.messenger.sendToApp('set_last_modify_time', new Date().getTime());
         }
+        agent.messenger.sendToApp('set_last_modify_time', new Date().getTime());
       });
     }, 2000, { leading: true });
 
