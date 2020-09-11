@@ -7,11 +7,23 @@ const Service = require('egg').Service;
 const chokidar = require('chokidar');
 const path = require('path');
 const { exec } = require('child_process');
-let lastModifyTime = 0;
+const _debounce = require('lodash/debounce');
 // 需要监听变化的文件路径
 const watchPath = path.resolve('/usr/src/node-app/watch-folder');
 const runBuildPath = path.resolve('/usr/src/node-app/run-build-folder');
 const buildScript = './node_modules/.bin/vue-cli-service build --no-clean --mode development';
+// 文件上次修改的时间
+let lastModifyTime = 0;
+const runBuild = () => {
+  exec(buildScript, { cwd: runBuildPath }, (err, stdout) => {
+    if (err) {
+      console.error('runBuildFail:', err);
+    }
+    console.log('runBuildSuc', stdout);
+    lastModifyTime = new Date().getTime();
+  });
+};
+const _runBuild = _debounce(runBuild, 2000);
 
 class WatchService extends Service {
   /**
@@ -22,13 +34,11 @@ class WatchService extends Service {
     const { ctx } = this;
     chokidar.watch(watchPath, {
       ignored: /node_modules/,
+      ignoreInitial: true,
     })
       .on('all', async (event, path) => {
-        console.log(event, path);
-        const runSuccess = await ctx.service.watch.runBuild();
-        if (runSuccess) {
-          lastModifyTime = new Date().getTime();
-        }
+        console.log('event, path', event, path);
+        await ctx.service.watch.runBuild();
       });
   }
 
@@ -36,21 +46,7 @@ class WatchService extends Service {
    * 运行构建
    * */
   async runBuild() {
-    try {
-      return new Promise(resolve => {
-        exec(buildScript, { cwd: runBuildPath }, (err, stdout) => {
-          if (err) {
-            console.error(err);
-            resolve(false);
-          }
-          console.log(stdout);
-          resolve(true);
-        });
-      });
-    } catch (e) {
-      console.log('runBuildError:', e);
-      return false;
-    }
+    _runBuild();
   }
 
   async getLastModifyTime() {
